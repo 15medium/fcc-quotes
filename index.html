@@ -1,0 +1,101 @@
+
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Quotes about Design</title>
+  <!-- Latest compiled and minified CSS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  
+
+  <script>
+      
+    function getQuote(){ 
+      $.ajax({
+        url: 'https://cors-everywhere.herokuapp.com/quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&callback=',
+        method: 'GET',
+        dataType: "json",
+        cache: false
+      }).then(function(data) {
+        var dataContent=data[0].content;
+        var div = document.createElement("div");
+        div.innerHTML = dataContent;
+        dataContent = div.innerText; 
+
+        var dataAuthor=data[0].title;
+
+        var html = "";
+        html += "<div><h3>" + dataContent + "</h3><br>";
+        html += "<h4>- " + dataAuthor + "</h4></div><br>";
+        $(".message").html(html);
+
+        var tweet = "";
+        tweet += "<a href='https://twitter.com/intent/tweet?text=" + dataContent + " -" +dataAuthor + " %23quotes' target='_blank'><img src='twitter.png' /></a>";
+        $(".message2").html(tweet);
+      });
+    }
+
+    $(document).ready(function() {
+      $(getQuote);
+
+      $("#getMessage").on("click", function() { 
+        $(getQuote);
+      });
+    });
+
+  </script> 
+
+  <style type="text/css">
+    .well{
+      background:#444;
+    }
+  </style>
+
+</head>
+<body style="background:#222; color:#fff;">
+  <div class="container-fluid">
+    <div class="row text-center">
+      <h1>Quotes about Design</h1>
+    </div>
+
+
+    <div class="row text-center">
+      <div class="col-md-2"></div>
+      <div class="col-md-8 well message">
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+
+        <div class="pull-right">
+          <button id="getMessage" class="btn btn-danger" >
+            Get another Quote
+          </button>
+          <a class="message2" style="padding-left:15px;" href="#"><img src="twitter.png" /></a>
+        </div>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+    <div class="row text-center">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <h6 style="color:#555;">15medium</h6>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+
+</body>
+</html>
+
+
+
